@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+
+<h:body>
+	<p:dataTable id="table" value="#{datatableBean.list}" var="str" paginator="true" rows="10" widgetVar="widgetVar"
+	paginatorAlwaysVisible="true" paginatorPosition="bottom"
+				rowIndexVar="incidentIndex" style="text-align:center;width:100%;"
+				scrollable="true" scrollWidth="96%" styleClass=".ui-datatable-hor-scroll" 
+				emptyMessage="No results found for the given search criteria"
+				sortMode="multiple"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15,20">
+    <p:column headerText="Header">
+        <h:outputLabel value="#{str}"/>
+    </p:column>
+</p:dataTable>
+<h:form id='frm'>
+    <p:commandButton value="Print" actionListener="#{datatableBean.deactivatePaginator()}" 
+                             oncomplete="$('#frm\\:print').click()"
+                             update=":table"/>
+     <p:commandButton id="print" value="Actual print" style="display: none">
+         <p:ajax event="click" listener="#{datatableBean.activatePaginator}" update=":table"/>
+         <p:printer target=":table" />
+     </p:commandButton>
+</h:form>
+</h:body>
+</html>
